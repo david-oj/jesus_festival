@@ -86,9 +86,7 @@ const Home = () => {
   ];
 
   return (
-    <section className=" bg-[url('./assets/images/jesus_festival.jpg')] bg-[center_20%] bg-no-repeat bg-cover bg-fixed min-h-screen w-full relative">
-      <div className=" bg-gradient-to-t from-black/90 to-black/10 absolute inset-0" />
-
+    <section className="max-w-[1536px] mx-auto">
       <div className="md:p-10 p-4">
         <div className="flex pb-4 justify-between max-lg:flex-col items-center gap-4">
           <h2 className="text-white text-center md:text-2xl text-lg font-bold font-montserrat">
