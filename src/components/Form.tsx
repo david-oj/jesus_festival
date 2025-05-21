@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
 
 type FormData = {
   fullName: string;
@@ -34,9 +35,11 @@ const initialFormData: FormData = {
 };
 
 export default function JesusFestivalForm() {
+  const navigate = useNavigate();
   const [attendsChurch, setAttendsChurch] = useState("");
-
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -52,17 +55,35 @@ export default function JesusFestivalForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
-      await fetch("/enroll", {
+      const response = await fetch("/enroll", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
+      if (!response.ok) {
+        throw new Error("Submission failed");
+      }
+
       setFormData(initialFormData);
+      // redirect to payment page with state
+      navigate("/payment-confirmation", {
+        state: {
+          fullName: formData.fullName,
+          email: formData.email,
+          amount: 5000,
+        },
+      });
     } catch (error) {
-      console.error(error);
+      setSubmitError(
+        error instanceof Error ? error.message : "Submission failed"
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -278,10 +299,16 @@ export default function JesusFestivalForm() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
+          className="w-full disabled:opacity-70 disabled:cursor-not-allowed bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
+          disabled={isSubmitting}
         >
-          Count Me In!
+          {isSubmitting ? "Submitting..." : "Count Me In!"}
         </button>
+        {submitError && (
+          <p className="text-red-400 text-sm mt-2" aria-live="assertive">
+            {submitError}
+          </p>
+        )}
       </form>
     </div>
   );
