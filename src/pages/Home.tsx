@@ -150,23 +150,23 @@ const Home = () => {
               community that’s all about lifting you up. It’s the perfect blend
               of fun, faith, and future-focused inspiration.
             </p>
-            <div className="bg-fuchsia-200/10 max-md:h-[380px] flex-grow mt-4 flex-col flex md:gap-4 gap-3">
-              <div className="flex-1 max-h-[250px] rounded-2xl border border-white/50 overflow-hidden">
+            <div className=" h-[280px] sm:h-[350px] md:h-[250px] mt-4 flex-col flex md:gap-4 gap-3">
+              <div className="h-[55%] sm:rounded-2xl rounded-lg border border-white/50 overflow-hidden">
                 <img
                   src={students2}
                   alt=""
                   className="w-full h-full object-cover object-center"
                 />
               </div>
-              <div className="flex-1 flex md:gap-4 gap-3 md:max-h-[200px] max-md:max-h-[180px]">
-                <div className="flex-1 rounded-2xl border border-white/50 overflow-hidden">
+              <div className="h-[45%] flex md:gap-4 gap-3">
+                <div className="w-1/2 sm:rounded-2xl rounded-lg border border-white/50 overflow-hidden">
                   <img
                     src={students1}
                     alt=""
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="flex-1 rounded-2xl border border-white/50 overflow-hidden">
+                <div className="w-1/2 sm:rounded-2xl rounded-lg border border-white/50 overflow-hidden">
                   <img
                     src={students3}
                     alt=""
