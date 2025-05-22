@@ -27,7 +27,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `http://localhost:${PORT}`,
+        url: `https://jesus-festival.onrender.com`,
       },
     ],
   },
@@ -67,6 +67,7 @@ app.use('/api/', studentRoutes);
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(`Swagger UI: http://localhost:${PORT}/api-docs`);
-  console.log(`ReDoc: http://localhost:${PORT}/redoc`);
+  console.log("App URL: https://jesus-festival.onrender.com");
+  console.log(`Swagger UI: https://jesus-festival.onrender.com/api-docs`);
+  console.log(`ReDoc: https://jesus-festival.onrender.com/redoc`);
 });
