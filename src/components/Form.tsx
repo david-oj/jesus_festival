@@ -16,7 +16,7 @@ type FormData = {
   tel: string;
   schoolGrad?: string;
   churchNameAndLocation?: string;
-  talents?: string;
+  guardianTel?: string;
   hearAbout: string;
   emailConsent?: boolean;
 };
@@ -29,7 +29,7 @@ const initialFormData: FormData = {
   tel: "",
   schoolGrad: "",
   churchNameAndLocation: "",
-  talents: "",
+  guardianTel: "",
   hearAbout: "",
   emailConsent: false,
 };
@@ -139,9 +139,6 @@ export default function JesusFestivalForm() {
             <SelectContent className="bg-white/10 text-white font-satoshi backdrop-blur-md">
               <SelectItem value="Male">Male</SelectItem>
               <SelectItem value="Female">Female</SelectItem>
-              <SelectItem value="Prefer not to say">
-                Prefer not to say
-              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -175,8 +172,22 @@ export default function JesusFestivalForm() {
         </div>
 
         <div>
+          <label className="block text-sm font-medium">Parent/Guardian Number</label>
+          <input
+            type="tel"
+            className="mt-1 w-full p-2 border rounded-lg"
+            placeholder="e.g. 080"
+            name="tel"
+            id="tel"
+            value={formData.guardianTel}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div>
           <label className="block text-sm font-medium">
-            School Graduated From
+            School
           </label>
           <input
             type="text"
@@ -243,20 +254,6 @@ export default function JesusFestivalForm() {
         )}
 
         <div>
-          <label className="block text-sm font-medium">
-            Any talents you’d like to showcase?
-          </label>
-          <textarea
-            className="mt-1 w-full p-2 border rounded-lg"
-            placeholder="Singing, dancing, poetry… let us know!"
-            name="talents"
-            id="talents"
-            value={formData.talents}
-            onChange={handleChange}
-          ></textarea>
-        </div>
-
-        <div>
           <label htmlFor="hearAbout" className="block mb-1 text-sm font-medium">
             How did you hear about Jesus Festival?
           </label>
@@ -296,6 +293,22 @@ export default function JesusFestivalForm() {
             I agree to receive updates about Jesus Festival via SMS or email.
           </p>
         </div>
+        {/* <div className="mt-8 w-fit mx-auto">
+          <button
+            onClick={() =>
+              navigate("/payment", {
+                state: {
+                  fullName: "Test User",
+                  email: "test@example.com",
+                  amount: 5000,
+                },
+              })
+            }
+            className="bg-red-500 text-white p-2 rounded-lg"
+          >
+            Test Payment Page
+          </button>
+        </div> */}
 
         <button
           type="submit"

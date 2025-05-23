@@ -150,7 +150,7 @@ const Home = () => {
               community that’s all about lifting you up. It’s the perfect blend
               of fun, faith, and future-focused inspiration.
             </p>
-            <div className=" h-[280px] sm:h-[350px] md:h-[250px] mt-4 flex-col flex md:gap-4 gap-3">
+            <div className=" h-[280px] sm:h-[350px] md:h-[250px] lg:h-[300px] xl:h-[400px] mt-4 flex-col flex md:gap-4 gap-3">
               <div className="h-[55%] sm:rounded-2xl rounded-lg border border-white/50 overflow-hidden">
                 <img
                   src={students2}
@@ -180,8 +180,8 @@ const Home = () => {
             <h3 className="max-md:text-center">Ready to Rock Your Future?</h3>
             <p className="mt-4 max-md:text-center">
               Grab your spot, bring your friends, and let’s make some noise.
-              Jesus Festival kicks off at 10 AM on Saturday, July 12, at The
-              Encounter Arena, Lagos. Doors open at 9 AM. See you there!
+              Jesus Festival kicks off on Thursday, August 14, 2025 at The
+              Loveworld Arena, New Garage, Ibadan. Doors open at 9 AM. See you there!
             </p>
 
             <Form />
