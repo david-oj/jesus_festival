@@ -7,6 +7,8 @@ import "@fontsource/montserrat/500.css";
 import "@fontsource/montserrat/700.css";
 import Home from "@/pages/Home.tsx";
 import Payment from "@/pages/Payment.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
+import Login from "./pages/Login.tsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +17,8 @@ const router = createBrowserRouter([
     children: [
       { path: "/", index: true, element: <Home /> },
       { path: "payment", element: <Payment /> },
+      {path: "dashboard", element: <Dashboard/>},
+      {path: "login", element: <Login/>},
       { path: "*", element: <Navigate to="/" replace /> },
     ],
   },
