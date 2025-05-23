@@ -20,6 +20,11 @@ const createPendingRegistration = async (req, res) => {
             return res.status(400).json({ message: 'Invalid phone number' });
         }
 
+        // Validate phone number
+        if (!isValidPhoneNumber(registrationData.ParentGuardianNumber, 'NG')) {
+            return res.status(400).json({ message: 'Invalid phone number' });
+        }
+
         // Check if the email already exists
         const existingStudent = await PendingPayment.findOne({ email: registrationData.email });
         if (existingStudent) {

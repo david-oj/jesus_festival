@@ -62,7 +62,7 @@ app.get('/swagger.json', (req, res) => {
 });
 
 // App routes
-app.use('/api/', studentRoutes);
+app.use('/api', studentRoutes);
 
 // Start server
 app.listen(PORT, () => {
