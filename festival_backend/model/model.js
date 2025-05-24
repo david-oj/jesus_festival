@@ -10,8 +10,8 @@ const jesusFestivalStudentSchema = new Schema({
     email: {type: String, required: true},
     ParentGuardianNumber: {type: String, required: false},
     school: {type: String, required: true},
-    christEmbassyChurch: {type: String, enum: ['Yes', 'No', 'Sometimes'], required: true},
-    howDidYouHearAboutUs: {type: String, enum: ['Instagram', 'WhatsApp', 'Church', 'Friend', 'Other'], required: true},
+    address: {type: String, required: true},
+    howDidYouHearAboutUs: {type: String, enum: ['School', 'WhatsApp', 'Church', 'Friend', 'Other'], required: true},
     agreementFestivalEmailSms: {type: Boolean, required: true},
 })
 
@@ -25,7 +25,7 @@ const pendingPaymentSchema = new Schema({
     email: {type: String, required: true},
     ParentGuardianNumber: {type: String, required: false},
     school: {type: String, required: true},
-    christEmbassyChurch: {type: String, enum: ['Yes', 'No', 'Sometimes'], required: true},
+    address: {type: String, required: true},
     howDidYouHearAboutUs: {type: String, enum: ['Instagram', 'WhatsApp', 'Church', 'Friend', 'Other'], required: true},
     agreementFestivalEmailSms: {type: Boolean, required: true},
     amount: Number,

@@ -73,7 +73,7 @@ const validateClientData = (data) => {
         'email',
         'ParentGuardianNumber',
         'school',
-        'christEmbassyChurch',
+        'address',
         'howDidYouHearAboutUs',
         'agreementFestivalEmailSms'
     ]
