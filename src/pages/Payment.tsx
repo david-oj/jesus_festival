@@ -1,11 +1,13 @@
 // components/PaymentConfirmation.tsx
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { API_BASE } from "@/lib/api";
 
 interface PaymentData {
   fullName: string;
   email: string;
   amount: number;
+  tx_ref: string;
 }
 
 const Payment = () => {
@@ -13,36 +15,53 @@ const Payment = () => {
   const location = useLocation();
   const paymentData = location.state as PaymentData;
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!paymentData?.fullName || !paymentData?.email) {
+    if (!paymentData?.fullName || !paymentData?.email || !paymentData?.tx_ref) {
       navigate("/"); // Redirect if no data
     }
   }, [paymentData, navigate]);
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    if (searchParams.get("paymentSuccess") === "true") {
-      setShowSuccessModal(true);
-      // Clear the success parameter from URL
-      navigate(location.pathname, { replace: true });
-    }
-  }, [location, navigate]);
-
   const handlePayment = async () => {
     try {
-      // Your payment gateway integration here
-      console.log("Processing payment...");
-
-      // Simulate successful payment
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Show success modal
-      setShowSuccessModal(true);
-    } catch (error) {
-      console.error("Payment failed:", error);
+      const response = await fetch(
+        `${API_BASE}/make-payment?tx_ref=${paymentData.tx_ref}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: paymentData.amount }),
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Payment failed");
+      window.location.href = data.paymentUrl;
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : "Payment failed");
     }
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tx_ref = params.get("tx_ref");
+    const transaction_id = params.get("transaction_id");
+
+    if (tx_ref && transaction_id) {
+      fetch(
+        `${API_BASE}/payment/verify?tx_ref=${tx_ref}&transaction_id=${transaction_id}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.student) {
+            setShowSuccessModal(true);
+          } else {
+            setError(data.message);
+          }
+        })
+        .catch((e) => setError(e.message));
+    }
+  }, []);
 
   return (
     <section className="max-w-[1536px] mx-auto">
@@ -90,8 +109,18 @@ const Payment = () => {
               <div className="flex justify-between items-center font-satoshi">
                 <span>Registration Fee:</span>
                 <span className="text-xl font-bold">
-                  ₦{paymentData?.amount?.toLocaleString()}
+                  ₦1000
                 </span>
+              </div>
+              <div className="flex justify-between items-center font-satoshi">
+                <span>charges:</span>
+                <span className="text-xl font-bold">
+                  ₦20
+                </span>
+              </div>
+              <div className="flex justify-between items-center font-satoshi">
+                <span>Total:</span>
+                <span className="text-xl font-bold">₦{paymentData?.amount}</span>
               </div>
             </div>
 
@@ -120,6 +149,8 @@ const Payment = () => {
           </div>
         </div>
       </div>
+
+      {error && <p className="text-red-400 text-center mt-4">{error}</p>}
       {/* Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">

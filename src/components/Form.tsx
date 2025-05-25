@@ -7,18 +7,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "@/lib/api";
 
 type FormData = {
   fullName: string;
   age: string;
   gender: string;
   email: string;
-  tel: string;
-  schoolGrad?: string;
-  churchNameAndLocation?: string;
-  guardianTel?: string;
-  hearAbout: string;
-  emailConsent?: boolean;
+  phoneNumber: string;
+  school: string;
+  address: string;
+  ParentGuardianNumber: string;
+  howDidYouHearAboutUs: string;
+  agreementFestivalEmailSms: boolean;
 };
 
 const initialFormData: FormData = {
@@ -26,17 +27,16 @@ const initialFormData: FormData = {
   age: "",
   gender: "",
   email: "",
-  tel: "",
-  schoolGrad: "",
-  churchNameAndLocation: "",
-  guardianTel: "",
-  hearAbout: "",
-  emailConsent: false,
+  phoneNumber: "",
+  school: "",
+  address: "",
+  ParentGuardianNumber: "",
+  howDidYouHearAboutUs: "",
+  agreementFestivalEmailSms: false,
 };
 
 export default function JesusFestivalForm() {
   const navigate = useNavigate();
-  const [attendsChurch, setAttendsChurch] = useState("");
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -55,27 +55,48 @@ export default function JesusFestivalForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (
+      !formData.fullName ||
+      !formData.age ||
+      !formData.gender
+    ) {
+      setSubmitError("Please fill all required fields");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
 
+    const body = {
+      ...formData,
+      age: Number(formData.age),
+    };
+
+    console.log("Sending registration data:", body);
+
     try {
-      const response = await fetch("/enroll", {
+      const response = await fetch(`${API_BASE}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(body),
       });
 
       if (!response.ok) {
-        throw new Error("Submission failed");
+        const err = await response.json();
+        throw new Error(err.message || "Submission failed");
       }
 
+      const { tx_ref } = await response.json();
       setFormData(initialFormData);
+      console.log("Registration successful");
       // redirect to payment page with state
-      navigate("/payment-confirmation", {
+      navigate("/payment", {
         state: {
           fullName: formData.fullName,
           email: formData.email,
-          amount: 5000,
+          amount: 1020, // fixed registration fee
+          tx_ref,
         },
       });
     } catch (error) {
@@ -149,9 +170,9 @@ export default function JesusFestivalForm() {
             type="tel"
             className="mt-1 w-full p-2 border rounded-lg"
             placeholder="e.g. 08012345678"
-            name="tel"
-            id="tel"
-            value={formData.tel}
+            name="phoneNumber"
+            id="phoneNumber"
+            value={formData.phoneNumber}
             onChange={handleChange}
             required
           />
@@ -172,106 +193,70 @@ export default function JesusFestivalForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Parent/Guardian Number</label>
+          <label className="block text-sm font-medium">
+            Parent/Guardian Number
+          </label>
           <input
             type="tel"
             className="mt-1 w-full p-2 border rounded-lg"
-            placeholder="e.g. 080"
-            name="tel"
-            id="tel"
-            value={formData.guardianTel}
+            placeholder="e.g. 08012345678"
+            name="ParentGuardianNumber"
+            id="ParentGuardianNumber"
+            value={formData.ParentGuardianNumber}
             onChange={handleChange}
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium">
-            School
-          </label>
+          <label className="block text-sm font-medium">Address</label>
           <input
             type="text"
             className="mt-1 w-full p-2 border rounded-lg"
-            name="schoolGrad"
-            id="schoolGrad"
-            value={formData.schoolGrad}
+            placeholder=""
+            name="address"
+            id="address"
+            value={formData.address}
             onChange={handleChange}
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium">
-            Do you attend a Christ Embassy church?
-          </label>
-          <div className="mt-2 space-x-4">
-            <label>
-              <input
-                type="radio"
-                name="attend"
-                value="yes"
-                onChange={() => setAttendsChurch("yes")}
-              />{" "}
-              Yes
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="attend"
-                value="no"
-                onChange={() => setAttendsChurch("no")}
-              />{" "}
-              No
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="attend"
-                value="sometimes"
-                onChange={() => setAttendsChurch("sometimes")}
-              />{" "}
-              Sometimes
-            </label>
-          </div>
+          <label className="block text-sm font-medium">School</label>
+          <input
+            type="text"
+            className="mt-1 w-full p-2 border rounded-lg"
+            name="school"
+            id="school"
+            value={formData.school}
+            onChange={handleChange}
+            required
+          />
         </div>
 
-        {attendsChurch === "yes" && (
-          <div>
-            <label className="block text-sm font-medium">
-              Church name & location
-            </label>
-            <input
-              type="text"
-              className="mt-1 w-full p-2 border rounded-lg"
-              placeholder="e.g. CE Lekki - Lagos"
-              name="churchNameAndLocation"
-              id="churchNameAndLocation"
-              value={formData.churchNameAndLocation}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        )}
-
         <div>
-          <label htmlFor="hearAbout" className="block mb-1 text-sm font-medium">
+          <label
+            htmlFor="howDidYouHearAboutUs"
+            className="block mb-1 text-sm font-medium"
+          >
             How did you hear about Jesus Festival?
           </label>
           <Select
-            value={formData.hearAbout}
+            value={formData.howDidYouHearAboutUs}
             onValueChange={(val) =>
-              setFormData((prev) => ({ ...prev, hearAbout: val }))
+              setFormData((prev) => ({ ...prev, howDidYouHearAboutUs: val }))
             }
           >
             <SelectTrigger
-              id="hearAbout"
+              id="howDidYouHearAboutUs"
               aria-required="true"
               className="w-full py-5 text-white font-satoshi text-base"
             >
-              <SelectValue placeholder="Instagram" />
+              <SelectValue placeholder="Choose..." />
             </SelectTrigger>
             <SelectContent className="bg-white/10 text-white font-satoshi backdrop-blur-md">
-              <SelectItem value="Instagram">Instagram</SelectItem>
+              <SelectItem value="School">School</SelectItem>
               <SelectItem value="WhatsApp">WhatsApp</SelectItem>
               <SelectItem value="Church">Church</SelectItem>
               <SelectItem value="Friend">Friend</SelectItem>
@@ -284,23 +269,23 @@ export default function JesusFestivalForm() {
           <input
             type="checkbox"
             className="mr-2 mt-1"
-            name="emailConsent"
-            id="emailConsent"
-            checked={formData.emailConsent}
+            name="agreementFestivalEmailSms"
+            id="agreementFestivalEmailSms"
+            checked={formData.agreementFestivalEmailSms}
             onChange={handleChange}
           />
           <p className="text-sm">
             I agree to receive updates about Jesus Festival via SMS or email.
           </p>
         </div>
-        {/* <div className="mt-8 w-fit mx-auto">
+        <div className="mt-8 w-fit mx-auto">
           <button
             onClick={() =>
               navigate("/payment", {
                 state: {
                   fullName: "Test User",
                   email: "test@example.com",
-                  amount: 5000,
+                  amount: 1020,
                 },
               })
             }
@@ -308,7 +293,7 @@ export default function JesusFestivalForm() {
           >
             Test Payment Page
           </button>
-        </div> */}
+        </div>
 
         <button
           type="submit"
@@ -318,7 +303,7 @@ export default function JesusFestivalForm() {
           {isSubmitting ? "Submitting..." : "Count Me In!"}
         </button>
         {submitError && (
-          <p className="text-red-400 text-sm mt-2" aria-live="assertive">
+          <p className="text-red-400 text-sm " aria-live="assertive">
             {submitError}
           </p>
         )}
