@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { API_BASE } from "@/lib/api";
 
 interface PaymentData {
-  fullName: string;
-  email: string;
-  amount: number;
+  fullName?: string;
+  email?: string;
+  amount?: number;
   tx_ref: string;
 }
 
@@ -18,7 +18,7 @@ const Payment = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!paymentData?.fullName || !paymentData?.email || !paymentData?.tx_ref) {
+    if ( !paymentData?.tx_ref) {
       navigate("/"); // Redirect if no data
     }
   }, [paymentData, navigate]);
