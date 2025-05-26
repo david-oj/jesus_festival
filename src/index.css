@@ -5,44 +5,44 @@
 
 @layer base {
   label {
-    @apply font-montserrat
+    @apply font-montserrat;
   }
-  
+
   input {
-    @apply font-satoshi
+    @apply font-satoshi;
   }
 
   h3 {
-    @apply text-lg font-bold font-montserrat
+    @apply text-lg font-bold font-montserrat;
   }
 
   p {
-    @apply max-w-xl font-satoshi
+    @apply max-w-xl font-satoshi;
   }
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('./assets/fonts/Satoshi-Regular.woff2') format('woff2'),
-    url('./assets/fonts/Satoshi-Regular.woff') format('woff');
+  font-family: "Satoshi";
+  src: url("./assets/fonts/Satoshi-Regular.woff2") format("woff2"),
+    url("./assets/fonts/Satoshi-Regular.woff") format("woff");
   font-weight: 400;
   font-display: swap;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('./assets/fonts/Satoshi-Medium.woff2') format('woff2'),
-    url('./assets/fonts/Satoshi-Medium.woff') format('woff');
+  font-family: "Satoshi";
+  src: url("./assets/fonts/Satoshi-Medium.woff2") format("woff2"),
+    url("./assets/fonts/Satoshi-Medium.woff") format("woff");
   font-weight: 500;
   font-display: swap;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('./assets/fonts/Satoshi-Bold.woff2') format('woff2'),
-    url('./assets/fonts/Satoshi-Bold.woff') format('woff');
+  font-family: "Satoshi";
+  src: url("./assets/fonts/Satoshi-Bold.woff2") format("woff2"),
+    url("./assets/fonts/Satoshi-Bold.woff") format("woff");
   font-weight: 700;
   font-display: swap;
   font-style: normal;
@@ -89,6 +89,7 @@
 }
 
 :root {
+  scroll-behavior: smooth;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -161,7 +162,24 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  h2,
+  h3,
+  p,
+  label,
+  input,
+  button {
+    @apply text-white;
+  }
+
+  button {
+    @apply cursor-pointer
+  }
+  a{
+    @apply text-white hover:opacity-70 transition
   }
 }
