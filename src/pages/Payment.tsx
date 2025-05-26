@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { API_BASE } from "@/lib/api";
 
 interface PaymentData {
-  fullName: string;
-  email: string;
-  amount: number;
+  fullName?: string;
+  email?: string;
+  amount?: number;
   tx_ref: string;
 }
 
@@ -18,8 +18,10 @@ const Payment = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!paymentData?.fullName || !paymentData?.email || !paymentData?.tx_ref) {
-      navigate("/"); // Redirect if no data
+    // If we have no tx_ref in URL or state at all, then kick them out:
+    const urlRef = new URLSearchParams(window.location.search).get("tx_ref");
+    if (!urlRef && !paymentData?.tx_ref) {
+      navigate("/");
     }
   }, [paymentData, navigate]);
 
@@ -108,19 +110,17 @@ const Payment = () => {
               <h4 className="font-montserrat text-lg mb-4">Payment Summary</h4>
               <div className="flex justify-between items-center font-satoshi">
                 <span>Registration Fee:</span>
-                <span className="text-xl font-bold">
-                  ₦1000
-                </span>
+                <span className="text-xl font-bold">₦1000</span>
               </div>
               <div className="flex justify-between items-center font-satoshi">
                 <span>charges:</span>
-                <span className="text-xl font-bold">
-                  ₦20
-                </span>
+                <span className="text-xl font-bold">₦20</span>
               </div>
               <div className="flex justify-between items-center font-satoshi">
                 <span>Total:</span>
-                <span className="text-xl font-bold">₦{paymentData?.amount}</span>
+                <span className="text-xl font-bold">
+                  ₦{paymentData?.amount}
+                </span>
               </div>
             </div>
 
