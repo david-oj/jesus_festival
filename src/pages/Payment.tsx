@@ -10,27 +10,39 @@ interface PaymentData {
   tx_ref: string;
 }
 
+const defaultPaymentData: PaymentData = {
+  fullName: "",
+  email: "",
+  amount: 0,
+  tx_ref: "",
+};
+
 const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  let paymentData = location.state as PaymentData;
+  const [paymentData, setPaymentData] =
+    useState<PaymentData>(defaultPaymentData);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Try React state first, else fall back to localStorage
-  if (!paymentData) {
-    const saved = localStorage.getItem("paymentData");
-    if (saved) paymentData = JSON.parse(saved);
-  }
-
-
   useEffect(() => {
-    // If we have no tx_ref in URL or state at all, then kick them out:
+    const stateData = location.state as PaymentData;
     const urlRef = new URLSearchParams(window.location.search).get("tx_ref");
-    if (!urlRef && !paymentData?.tx_ref) {
-      navigate("/");
+
+    if (stateData?.tx_ref) {
+      setPaymentData(stateData);
+      localStorage.setItem("paymentData", JSON.stringify(stateData));
+    } else {
+      const saved = localStorage.getItem("paymentData");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setPaymentData(parsed);
+      } else if (!urlRef && !stateData?.tx_ref) {
+        // No state, no saved data, no tx_ref in URL → redirect
+        navigate("/");
+      }
     }
-  }, [paymentData, navigate]);
+  }, [location.state, navigate]);
 
   const handlePayment = async () => {
     try {
@@ -45,7 +57,6 @@ const Payment = () => {
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Payment failed");
-      localStorage.setItem("paymentData", JSON.stringify(paymentData));
       window.location.href = data.paymentUrl;
     } catch (err) {
       console.error(err);
@@ -128,7 +139,7 @@ const Payment = () => {
               <div className="flex justify-between items-center font-satoshi">
                 <span>Total:</span>
                 <span className="text-xl font-bold">
-                  ₦{paymentData?.amount}
+                  ₦{paymentData?.amount?.toLocaleString()}
                 </span>
               </div>
             </div>
