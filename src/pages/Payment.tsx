@@ -13,9 +13,16 @@ interface PaymentData {
 const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const paymentData = location.state as PaymentData;
+  let paymentData = location.state as PaymentData;
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Try React state first, else fall back to localStorage
+  if (!paymentData) {
+    const saved = localStorage.getItem("paymentData");
+    if (saved) paymentData = JSON.parse(saved);
+  }
+
 
   useEffect(() => {
     // If we have no tx_ref in URL or state at all, then kick them out:
@@ -35,8 +42,10 @@ const Payment = () => {
           body: JSON.stringify({ amount: paymentData.amount }),
         }
       );
+
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Payment failed");
+      localStorage.setItem("paymentData", JSON.stringify(paymentData));
       window.location.href = data.paymentUrl;
     } catch (err) {
       console.error(err);
