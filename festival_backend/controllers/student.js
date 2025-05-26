@@ -80,7 +80,7 @@ const initiatePayment = async (req, res) => {
             tx_ref,
             amount,
             currency: 'NGN',
-            redirect_url: `${process.env.BASE_URL}/api/payment/verify?tx_ref=${tx_ref}`,
+            redirect_url: `${process.env.BASE_URL}/payment?tx_ref=${tx_ref}`,
             customer: {
                 email: pendingPayment.email,
                 name: pendingPayment.fullName,
