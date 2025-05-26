@@ -107,6 +107,7 @@ const initiatePayment = async (req, res) => {
                 paymentUrl: response.data.data.link,
             });
         } else {
+            await pendingPayment.delete(); // Clean up if payment initiation fails
             return res.status(400).json({ message: 'Failed to initiate payment' });
         }
     } catch (error) {
