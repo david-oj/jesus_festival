@@ -134,7 +134,7 @@ const Payment = () => {
               </button>
 
               <p className="text-center text-sm font-satoshi text-white/80">
-                Secure payment processing powered by [Your Payment Gateway]
+                Secure payment processing powered by Flutterwave
               </p>
 
               <div className="text-center mt-4">

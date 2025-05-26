@@ -278,7 +278,7 @@ export default function JesusFestivalForm() {
             I agree to receive updates about Jesus Festival via SMS or email.
           </p>
         </div>
-        <div className="mt-8 w-fit mx-auto">
+        {/* <div className="mt-8 w-fit mx-auto">
           <button
             onClick={() =>
               navigate("/payment", {
@@ -293,7 +293,7 @@ export default function JesusFestivalForm() {
           >
             Test Payment Page
           </button>
-        </div>
+        </div> */}
 
         <button
           type="submit"
