@@ -203,7 +203,7 @@ const webhookHandler = async (req, res) => {
         const payload = req.body;
 
         if (payload.event === 'charge.completed') {
-            const { tx_ref, status, customer } = payload.data;
+            const { tx_ref, status } = payload.data;
 
             // Only process successful payments
             if (status === 'successful') {
@@ -248,7 +248,7 @@ const webhookHandler = async (req, res) => {
 
 const getAllStudents = async (req, res) => {
     try {
-        const students = await FestivalStudent.find().sort({ createdAt: -1 });
+        const students = await FestivalStudent.find().sort({ createdAt: -1});
         return res.status(200).json(students);
     } catch (error) {
         console.error('Error fetching students:', error);
