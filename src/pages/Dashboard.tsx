@@ -21,7 +21,7 @@ const Dashboard = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const handleLogout = () => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
     window.location.href = "/login?logout=true";
