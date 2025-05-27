@@ -31,8 +31,7 @@ const pendingPaymentSchema = new Schema({
     amount: Number,
     status: { type: String, enum: ['pending', 'successful', 'failed'], default: 'pending' },
     usedForRegistration: { type: Boolean, default: false },
-    createdAt: { type: Date, default: Date.now },
-})
+}, {timestamps: true })
 
 const FestivalStudent = mongoose.model('FestivalStudent', jesusFestivalStudentSchema);
 const PendingPayment = mongoose.model('PendingPayment', pendingPaymentSchema);

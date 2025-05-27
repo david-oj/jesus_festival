@@ -28,6 +28,17 @@ const createPendingRegistration = async (req, res) => {
         // Check if the email already exists
         const existingStudent = await PendingPayment.findOne({ email: registrationData.email });
         if (existingStudent) {
+            const now = new Date()
+            const create = new Date(existingStudent.createdAt);
+            const ageDiff = (now - create) / (1000 * 60); 
+
+            if (existingStudent.status === 'successful') {
+                return res.status(400).json({ message: 'Email already registered and paid' });
+            } else if (ageDiff > 5) {
+                await PendingPayment.findByIdAndDelete(existingStudent._id); // Delete old pending payment if it is older than 5 minutes
+            }
+        }
+        if (existingStudent) {
             return res.status(400).json({ message: 'Email already exists' });
         }
 
@@ -107,7 +118,6 @@ const initiatePayment = async (req, res) => {
                 paymentUrl: response.data.data.link,
             });
         } else {
-            await pendingPayment.delete(); // Clean up if payment initiation fails
             return res.status(400).json({ message: 'Failed to initiate payment' });
         }
     } catch (error) {
