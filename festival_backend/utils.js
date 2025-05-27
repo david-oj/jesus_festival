@@ -38,12 +38,24 @@ const sendEmail = async (email, name, qrCodeImageUrl, registerationId) => {
         to: email,
         subject: 'Jesus Festival Registration Confirmation',
         html: `
-            <h1>Thank you for registering for the Jesus Festival!</h1>
-            <p>Dear ${name},</p>
-            <p>Your registration is confirmed. Please find your QR code below:</p>
-            <img src="cid:qr_code" alt="QR Code" />
-            <p>Your Registration ID: ${registerationId}</p>
-            <p>We look forward to seeing you at the festival!</p>
+        <div style="max-width: 600px; margin: auto; padding: 20px; font-family: Arial, sans-serif; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
+            <h2 style="color: #2c3e50; text-align: center;">🎉 Jesus Festival Registration Confirmed!</h2>
+            <p style="font-size: 16px; color: #333;">Dear <strong>${name}</strong>,</p>
+            <p style="font-size: 16px; color: #333;">Thank you for registering for the <strong>Jesus Festival</strong>! Your registration has been successfully confirmed.</p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <img src="cid:qr_code" alt="QR Code" style="width: 200px; height: auto;" />
+                <p style="font-size: 14px; color: #333;">Scan this QR code at the event entrance</p>
+            </div>
+
+            <p style="font-size: 16px; color: #333;">Your <strong>Registration ID</strong>: <span style="background: #eaeaea; padding: 5px 10px; border-radius: 4px; font-weight: bold;">${registerationId}</span></p>
+
+            <p style="font-size: 16px; color: #333;">We can't wait to welcome you at the festival. Stay blessed!</p>
+            <p style="font-size: 16px; color: #333;">Warm regards,<br><strong>Jesus Festival Team</strong></p>
+
+            <hr style="margin-top: 30px;" />
+            <p style="font-size: 12px; color: #999; text-align: center;">This email was sent to ${email}. Please keep this email for your records.</p>
+        </div>
         `,
         attachments: [
             {
