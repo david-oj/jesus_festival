@@ -55,18 +55,25 @@ export default function JesusFestivalForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
 
     if (
       !formData.fullName ||
       !formData.age ||
-      !formData.gender
+      !formData.gender ||
+      !formData.email ||
+      !formData.phoneNumber ||
+      !formData.ParentGuardianNumber ||
+      !formData.school ||
+      !formData.address ||
+      !formData.howDidYouHearAboutUs ||
+      !formData.agreementFestivalEmailSms
     ) {
       setSubmitError("Please fill all required fields");
+      setIsSubmitting(false);
       return;
     }
-
-    setIsSubmitting(true);
-    setSubmitError(null);
 
     const body = {
       ...formData,

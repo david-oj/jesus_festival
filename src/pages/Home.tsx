@@ -3,84 +3,57 @@ import Form from "../components/Form";
 import { students1, students2, students3 } from "@/assets/images";
 
 const Home = () => {
-  const days = 25;
-  const hours = 40;
-  const minutes = 10;
-  const seconds = 0;
+  const EVENT_DATE_ISO = "2025-08-14T09:00:00";
 
-  //   const resetCountdown = (
-  //     newDays: number,
-  //     newHours: number,
-  //     newMinutes: number,
-  //     newSeconds: number
-  //   ) => {
-  //     const newDurationMs =
-  //       (newDays * 86400 + newHours * 3600 + newMinutes * 60 + newSeconds) * 1000;
+  const useCountdown = (targetMs: number) => {
+    // calculate ms remaining,clamp ≥0
+    // Memorize calcDiff so it only changes when targetMs changes
+    const calcDiff = useCallback(
+      () => Math.max(targetMs - Date.now(), 0),
+      [targetMs]
+    );
+    // diff in ms
+    const [diffMs, setDiffMs] = useState<number>(calcDiff());
 
-  //     const newTargetTime = Date.now() + newDurationMs;
-  //     localStorage.setItem("countdownTargetTime", newTargetTime.toString());
-  //     setTimeLeft(Math.floor(newDurationMs / 1000)); // update state immediately
-  //   };
+    useEffect(() => {
+      const tick = () => setDiffMs(calcDiff());
+      const id = setInterval(tick, 1000);
+      return () => clearInterval(id);
+    }, [targetMs, calcDiff]);
 
-  // Calculate the initial duration
-  const initialDurationMs =
-    (days * 86400 + hours * 3600 + minutes * 60 + seconds) * 1000;
+    // break down into units
+    const totalSeconds = Math.floor(diffMs / 1000);
+    return {
+      days: Math.floor(totalSeconds / 86400),
+      hours: Math.floor((totalSeconds % 86400) / 3600),
+      minutes: Math.floor((totalSeconds % 3600) / 60),
+      seconds: totalSeconds % 60,
+    };
+  };
 
-  // Retrieve or set the countdown target time in localStorage
-  const targetTime = useMemo(() => {
-    if (typeof window === "undefined") return Date.now();
-
-    const stored = localStorage.getItem("countdownTargetTime");
-    if (stored) return parseInt(stored, 10);
-
-    const newTarget = Date.now() + initialDurationMs;
-    localStorage.setItem("countdownTargetTime", newTarget.toString());
-    return newTarget;
-  }, [initialDurationMs]);
-
-  //Calculates time left
-  const calculateTimeLeft = useCallback(() => {
-    const difference = targetTime - Date.now();
-    return Math.max(Math.floor(difference / 1000), 0);
-  }, [targetTime]);
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [calculateTimeLeft]);
-
-  const daysLeft = Math.floor(timeLeft / 86400);
-  const hoursLeft = Math.floor((timeLeft % 86400) / 3600);
-  const minutesLeft = Math.floor((timeLeft % 3600) / 60);
-  const secondsLeft = timeLeft % 60;
-
-  const formatTime = (timeValue: number) =>
-    timeValue.toString().padStart(2, "0");
+  const eventTimeMs = useMemo(() => new Date(EVENT_DATE_ISO).getTime(), []);
+  const { days, hours, minutes, seconds } = useCountdown(eventTimeMs);
+  const fmt = (n: number) => n.toString().padStart(2, "0");
 
   const countDown: { title: string; value: string; color: string }[] = [
     {
       title: "Days",
-      value: formatTime(daysLeft),
+      value: fmt(days),
       color: "border-teal-400",
     },
     {
       title: "Hours",
-      value: formatTime(hoursLeft),
+      value: fmt(hours),
       color: "border-yellow-400",
     },
     {
       title: "Minutes",
-      value: formatTime(minutesLeft),
+      value: fmt(minutes),
       color: "border-red-400",
     },
     {
       title: "Seconds",
-      value: formatTime(secondsLeft),
+      value: fmt(seconds),
       color: "border-purple-400",
     },
   ];
@@ -181,7 +154,8 @@ const Home = () => {
             <p className="mt-4 max-md:text-center">
               Grab your spot, bring your friends, and let’s make some noise.
               Jesus Festival kicks off on Thursday, August 14, 2025 at The
-              Loveworld Arena, New Garage, Ibadan. Doors open at 9 AM. See you there!
+              Loveworld Arena, New Garage, Ibadan. Doors open at 9 AM. See you
+              there!
             </p>
 
             <Form />
