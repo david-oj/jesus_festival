@@ -13,7 +13,7 @@ const jesusFestivalStudentSchema = new Schema({
     address: {type: String, required: true},
     howDidYouHearAboutUs: {type: String, enum: ['School', 'WhatsApp', 'Church', 'Friend', 'Other'], required: true},
     agreementFestivalEmailSms: {type: Boolean, required: true},
-})
+}, {timestamps: true })
 
 // pending payment schema
 const pendingPaymentSchema = new Schema({
