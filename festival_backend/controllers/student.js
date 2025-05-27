@@ -34,12 +34,11 @@ const createPendingRegistration = async (req, res) => {
 
             if (existingStudent.status === 'successful') {
                 return res.status(400).json({ message: 'Email already registered and paid' });
-            } else if (ageDiff > 5) {
+            } else if (ageDiff <= 5) {
+                return res.status(400).json({ message: 'A pending registration already exists. Please wait or retry in a few minutes.' });
+            } else {
                 await PendingPayment.findByIdAndDelete(existingStudent._id); // Delete old pending payment if it is older than 5 minutes
             }
-        }
-        if (existingStudent) {
-            return res.status(400).json({ message: 'Email already exists' });
         }
 
         tx_ref = `tx_${Date.now()}-${Math.floor(Math.random() * 100000)}`;
