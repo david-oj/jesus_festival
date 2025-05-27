@@ -50,11 +50,13 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <section className="relative grid grid-cols-[auto_1fr] h-full w-full gap-3 p-2">
+    <section className="relative grid sm:grid-cols-[auto_1fr] h-full w-full gap-3 p-2">
+
+      {/* <div className=" bg-gradient-to-t from-black/0 to-black/10 absolute inset-0" /> */}
       {/* Navigation Sidebar */}
       <div
-        className={`md:p-4 left-3 top-3 z-10 bg-amber-100/10 max-md:fixed md:min-h-screen  overflow-hidden transform transition-[width] duration-500 ease-in-out flex flex-col rounded-xl gap-2 backdrop-blur-md ${
-          isCollapsed ? " w-8 max-md:h-8 items-center" : "w-[140px] h-full "
+        className={`px-4 bg-white/10 z-10 md:sticky md:top-0 fixed md:h-screen overflow-hidden transform transition-[width] ease-in-out flex flex-col md:rounded-xl gap-2 backdrop-blur-md ${
+          isCollapsed ? " w-8 h-8 items-center top-3 duration-250 left-3 rounded-full " : "w-[140px] h-full duration-500"
         }`}
       >
         <button onClick={() => setIsCollapsed((prev) => !prev)}>
@@ -62,7 +64,7 @@ const Dashboard = () => {
         </button>
 
         <nav
-          className={`flex flex-col transform transition duration-500 ${
+          className={`flex flex-col  transform transition duration-500 ${
             isCollapsed
               ? "opacity-0 -translate-x-20 hidden"
               : "opacity-100 translate-x-0 block"
@@ -75,14 +77,14 @@ const Dashboard = () => {
         </nav>
       </div>
 
-      <div className="bg-white/10 min-w-full rounded-xl backdrop-blur-md p-8 flex-grow">
+      <div className="bg-white/10 min-w-full rounded-xl backdrop-blur-md max-md:py-14 md:p-8 p-4 ">
         <h3>Dashboard</h3>
         {loading ? (
           <p className="text-white/80 font-satoshi">Loading students...</p>
         ) : error ? (
           <p className="text-red-400 font-satoshi">{error}</p>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto rounded-xl mt-5">
             <table className="w-full text-left text-white font-satoshi border border-white/20 rounded-xl overflow-hidden">
               <thead className="bg-white/10 border-b border-white/20">
                 <tr>
@@ -99,9 +101,9 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {students.map((student) => (
+                {students.map((student, id) => (
                   <tr
-                    key={student.email}
+                    key={id}
                     className="border-t border-white/10 hover:bg-white/5"
                   >
                     <td className="p-3">{student.fullName}</td>
@@ -113,7 +115,7 @@ const Dashboard = () => {
                     <td className="p-3">{student.address}</td>
                     <td className="p-3">{student.ParentGuardianNumber}</td>
                     <td className="p-3">{student.howDidYouHearAboutUs}</td>
-                    <td className="p-3">{student.agreementFestivalEmailSms}</td>
+                    <td className="p-3">{student.agreementFestivalEmailSms ? "Yes" : "No"}</td>
                   </tr>
                 ))}
               </tbody>
