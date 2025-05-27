@@ -41,7 +41,7 @@ router.post('/register', createPendingRegistration);
  *       200:
  *         description: Redirect URL for payment returned
  */
-router.put('/make-payment', initiatePayment);
+router.post('/make-payment', initiatePayment);
 
 /**
  * @swagger
