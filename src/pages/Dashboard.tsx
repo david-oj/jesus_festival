@@ -78,7 +78,11 @@ const Dashboard = () => {
       </div>
 
       <div className="bg-white/10 min-w-full rounded-xl backdrop-blur-md max-md:py-14 md:p-8 p-4 ">
-        <h3>Dashboard</h3>
+        <h3 className="max-sm:text-center">Dashboard</h3>
+        <div className="flex flex-col max-sm:mx-auto max-sm:text-center bg-white/10 w-fit p-4 rounded-xl border border-white/30 mt-4">
+          <span className="text-white md:text-2xl text-lg font-bold font-montserrat"> {students.length}</span>
+          <span className="text-white font-satoshi font-medium text-base"> Total Registerations</span>
+        </div>
         {loading ? (
           <p className="text-white/80 font-satoshi">Loading students...</p>
         ) : error ? (
