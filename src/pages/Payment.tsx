@@ -112,7 +112,7 @@ const Payment = () => {
               <h4 className="font-montserrat text-lg mb-4">Event Details</h4>
               <div className="space-y-2 font-satoshi">
                 <p>
-                  <strong>Date:</strong> Saturday, July 12
+                  <strong>Date:</strong> Thursday, August 14
                 </p>
                 <p>
                   <strong>Time:</strong> 10:00 AM (Doors open at 9:00 AM)
@@ -159,7 +159,7 @@ const Payment = () => {
 
               <div className="text-center mt-4">
                 <button
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate("/")}
                   className="text-sm text-white/70 hover:text-white transition underline"
                 >
                   ← Return to Registration
