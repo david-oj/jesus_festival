@@ -26,7 +26,7 @@ const pendingPaymentSchema = new Schema({
     ParentGuardianNumber: {type: String, required: false},
     school: {type: String, required: true},
     address: {type: String, required: true},
-    howDidYouHearAboutUs: {type: String, enum: ['Instagram', 'WhatsApp', 'Church', 'Friend', 'Other'], required: true},
+    howDidYouHearAboutUs: {type: String, enum: ['School', 'WhatsApp', 'Church', 'Friend', 'Other'], required: true},
     agreementFestivalEmailSms: {type: Boolean, required: true},
     amount: Number,
     status: { type: String, enum: ['pending', 'successful', 'failed'], default: 'pending' },
