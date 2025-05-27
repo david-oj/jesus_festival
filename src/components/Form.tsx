@@ -67,8 +67,7 @@ export default function JesusFestivalForm() {
       !formData.ParentGuardianNumber ||
       !formData.school ||
       !formData.address ||
-      !formData.howDidYouHearAboutUs ||
-      !formData.agreementFestivalEmailSms
+      !formData.howDidYouHearAboutUs
     ) {
       setSubmitError("Please fill all required fields");
       setIsSubmitting(false);

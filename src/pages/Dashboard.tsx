@@ -78,8 +78,8 @@ const Dashboard = () => {
       </div>
 
       <div className="bg-white/10 min-w-full rounded-xl backdrop-blur-md max-md:py-14 md:p-8 p-4 ">
-        <h3 className="max-sm:text-center">Dashboard</h3>
-        <div className="flex flex-col max-sm:mx-auto max-sm:text-center bg-white/10 w-fit p-4 rounded-xl border border-white/30 mt-4">
+        <h3 className="">Dashboard</h3>
+        <div className="flex flex-col bg-white/10 w-fit p-4 rounded-xl border border-white/30 mt-4">
           <span className="text-white md:text-2xl text-lg font-bold font-montserrat"> {students.length}</span>
           <span className="text-white font-satoshi font-medium text-base"> Total Registerations</span>
         </div>
@@ -108,7 +108,7 @@ const Dashboard = () => {
                 {students.map((student, id) => (
                   <tr
                     key={id}
-                    className="border-t border-white/10 hover:bg-white/5"
+                    className=" border-t border-white/10 hover:bg-white/5"
                   >
                     <td className="p-3">{student.fullName}</td>
                     <td className="p-3 ">{student.email}</td>
@@ -116,7 +116,7 @@ const Dashboard = () => {
                     <td className="p-3">{student.gender}</td>
                     <td className="p-3">{student.phoneNumber}</td>
                     <td className="p-3">{student.school}</td>
-                    <td className="p-3">{student.address}</td>
+                    <td className="p-3 h-[80px] line-clamp-3">{student.address}</td>
                     <td className="p-3">{student.ParentGuardianNumber}</td>
                     <td className="p-3">{student.howDidYouHearAboutUs}</td>
                     <td className="p-3">{student.agreementFestivalEmailSms ? "Yes" : "No"}</td>
