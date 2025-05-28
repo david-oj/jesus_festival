@@ -59,7 +59,7 @@ const Home = () => {
   ];
 
   return (
-    <section className="max-w-[1536px] mx-auto">
+    <section className="">
       <div className="md:p-10 p-4">
         <div className="flex pb-4 justify-between max-lg:flex-col items-center gap-4">
           <h2 className="text-white text-center md:text-2xl text-lg font-bold font-montserrat">

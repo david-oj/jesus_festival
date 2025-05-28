@@ -4,7 +4,7 @@ function App() {
   return (
     <div className="flex bg-[url('./assets/images/jesus_festival.webp')] bg-[center_20%] bg-no-repeat bg-cover bg-fixed bg-[#D6971F] min-h-screen flex-col w-full relative">
       <div className=" bg-gradient-to-t from-black/90 to-black/10 absolute inset-0" />
-      <main className="flex-grow">
+      <main className="flex-grow max-w-[1536px] mx-auto">
         <Outlet />
       </main>
     </div>
