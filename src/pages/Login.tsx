@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <section className="mx-4 mt-20 ">
+    <section className="mx-3 mt-20 ">
       <div className="max-w-md mx-auto p-8  bg-white/10 backdrop-blur-md rounded-xl shadow">
         <h2 className="text-xl font-semibold mb-4 text-center">Admin Login</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
