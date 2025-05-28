@@ -83,21 +83,21 @@ const Dashboard = () => {
       </div>
 
       <div className="bg-white/10 min-w-full rounded-xl backdrop-blur-md max-md:py-14 md:p-8 p-4 ">
-        <div className="flex justify-between relative">
+        <div className="flex justify-between bg relative">
           <h3 className="">Dashboard</h3>
           <div className="group">
-            <p className="hover:cursor-pointer">Download</p>
+            <button className="hover:cursor-pointer">Download</button>
 
-            <div className="hidden group-hover:flex flex-col transition-all duration-300 overflow-hidden absolute top-7 right-0 bg-white/10 backdrop-blur-md rounded-xl border border-white/30">
+            <div className="hidden group-hover:flex max-sm:group-focus-within:flex  flex-col transition-all duration-300 overflow-hidden absolute top-7 right-0  backdrop-blur-md rounded-xl border border-white/30">
               <button
                 onClick={() => exportToPdf(students)}
-                className="bg-white/10 border-b text-white px-3 py-2 rounded hover:bg-blue-700 transition"
+                className="bg-white/10 text-white px-3 py-2 rounded hover:bg-blue-700 active:bg-blue-700 transition"
               >
                 Export PDF
               </button>
               <button
                 onClick={() => exportToExcel(students)}
-                className="bg-white/10 text-white px-3 py-2 rounded hover:bg-green-700 transition"
+                className="bg-white/10 text-white px-3 py-2 rounded hover:bg-green-700 active:bg-green-700 transition"
               >
                 Export Excel
               </button>
