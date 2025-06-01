@@ -4,6 +4,7 @@ import studentRoutes from './routes/studentRoutes.js';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
+import FestivalStudent from './model/model.js'
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Connect to MongoDB
 connectDB();
+await FestivalStudent.syncIndexes(); // Ensure indexes are created for the model
 
 // Swagger/OpenAPI setup
 const swaggerOptions = {

@@ -208,8 +208,14 @@ const webhookHandler = async (req, res) => {
             // Only process successful payments
             if (status === 'successful') {
                 const pendingPayment = await PendingPayment.findOne({ tx_ref })
+                if (!pendingPayment) {
+                    console.log('Pending payment not found for tx_ref:', tx_ref);
+                    return res.status(404).json({ message: 'Pending payment not found' });
+                }
 
-                if (pendingPayment && pendingPayment.status !== 'successful') {
+                const isRegistered = await FestivalStudent.findOne({ email: pendingPayment.email })
+
+                if (pendingPayment.status !== 'successful' && !isRegistered) {
                     // Update the pending payment status to successful
                     pendingPayment.status = 'successful';
                     pendingPayment.usedForRegistration = true;
@@ -227,8 +233,18 @@ const webhookHandler = async (req, res) => {
                         registerationId
                     });
 
-                    await newStudent.save();
+                    try {
+                        await newStudent.save();
+                    } catch(error) {
+                        if (error === 11000) {
+                            console.warn("Duplicate student detected:', pendingPayment.email");
+                        }else {
+                            console.error('Error saving new student:', error);
+                            return res.status(500).json({ message: 'Internal server error' });
+                        }
+                    }
 
+                    // Send email
                     await sendEmail(
                         newStudent.email,
                         newStudent.fullName,
