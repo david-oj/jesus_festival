@@ -34,7 +34,6 @@ const pendingPaymentSchema = new Schema({
 }, {timestamps: true })
 
 const FestivalStudent = mongoose.model('FestivalStudent', jesusFestivalStudentSchema);
-jesusFestivalStudentSchema.index({ email: 1 }, { unique: true });
 const PendingPayment = mongoose.model('PendingPayment', pendingPaymentSchema);
 
 module.exports = {
