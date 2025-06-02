@@ -7,7 +7,7 @@ const jesusFestivalStudentSchema = new Schema({
     age: {type: Number, required: true},
     gender: {type: String, enum: ['Male', 'Female'], required: true},
     phoneNumber: {type: String, required: true},
-    email: {type: String, required: true},
+    email: {type: String, required: true, unique: true},
     ParentGuardianNumber: {type: String, required: false},
     school: {type: String, required: true},
     address: {type: String, required: true},
